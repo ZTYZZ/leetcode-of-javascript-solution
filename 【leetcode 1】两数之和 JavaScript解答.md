@@ -42,9 +42,9 @@ var twoSum = function(nums, target) {
 };
 ```
 
-#### 2. 使用键值对（map）
+#### 2. 使用Object（键值对）
 
-由于我们无法立即从数组中得到`target-nums[i]`的数值，所以不得不从头到尾再查找一遍，所以我们使用JavaScript中的对象，来实现一个`map`。
+由于我们无法立即从数组中得到`target-nums[i]`的数值，所以不得不从头到尾再查找一遍，所以我们使用JavaScript中的对象，来手动实现一个`map`。
 
 ```
 /**
@@ -73,7 +73,7 @@ var twoSum = function(nums, target) {
 
 通过第一遍遍历，将他的键和值互换，生成一个`map`。之后就可以进行O(1)的时间查找了。但是需要O(2n)的复杂度。还可以怎么优化呢？
 
-#### 3. 一遍Map
+#### 3. 一遍Object
 
 有没有可能变创建边查呢？因为我们要找的是两个数，这两个数的位置是固定的。一个数永远在另一个数的后面，所以在遍历的过程中就直接可以查找。
 
@@ -105,7 +105,35 @@ var twoSum = function(nums, target) {
 
 实现，但是实际的时间并没有明显的提升，还有哪些地方可以优化的呢？
 
+#### 4. Map方法
+
+查了一下，发现JavaScript实现了一个`Map`对象，所以可以直接使用`Map`，来提高性能。学习链接如下[MDN：Map](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map)
+
+```
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function(nums, target) {
+    var newNums = new Map();
+    var result =[];
+
+    for(var i = 0;i<nums.length;i++) {
+        
+        var num2 = target-nums[i];
+        if(newNums.has(num2)) {
+            result[0] = newNums.get(num2);
+            result[1] = i;
+            return result;
+        }
+        else {
+            newNums.set(nums[i],i);
+        }
+    }
+};
+```
+
 
 
 github同步更新链接：欢迎f**k! [leetcode](https://github.com/ZTYZZ/leetcode-of-javascript-solution)
-
